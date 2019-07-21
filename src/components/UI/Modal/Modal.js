@@ -15,7 +15,7 @@ const modal = ( props ) => (
             }}>
             {props.children}
         </div>
-    </Aux>
+    </Aux> 
 );
 
 export default modal;
