@@ -1,16 +1,15 @@
-import React, { Component } from "react";
+import { useEffect, useState } from "react";
 
-import Order from "../../components/Order/Order";
-import axios from "../../axios-orders";
-import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import Order from "components/Order/Order";
+import axios from "axios-orders";
+import withErrorHandler from "hoc/withErrorHandler/withErrorHandler";
+import Spinner from "components/UI/Spinner/Spinner";
 
-class Orders extends Component {
-  state = {
-    orders: [],
-    loading: true,
-  };
+const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get("/orders.json")
       .then((res) => {
@@ -21,22 +20,42 @@ class Orders extends Component {
             id: key,
           });
         }
-        this.setState({ loading: false, orders: fetchedOrders });
+        setOrders(fetchedOrders);
+        setLoading(false);
       })
       .catch((err) => {
-        this.setState({ loading: false });
+        setLoading(false);
       });
-  }
+  }, []);
 
-  render() {
-    return (
-      <div>
-        {this.state.orders.map((order) => (
-          <Order key={order.id} ingredients={order.ingredients} price={order.price} />
-        ))}
-      </div>
-    );
-  }
-}
+  const deleteOrder = (id) => {
+    axios
+      .delete(`/orders/${id}.json`)
+      .then((res) => {
+        setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
+        // setLoading(false);
+      })
+      .catch((err) => {
+        // setLoading(false);
+        console.log(err);
+      });
+  };
+
+  if (loading) return <Spinner />;
+
+  return (
+    <div>
+      {orders.map((order) => (
+        <Order
+          key={order.id}
+          id={order.id}
+          ingredients={order.ingredients}
+          price={order.price}
+          deleteOrder={deleteOrder}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default withErrorHandler(Orders, axios);

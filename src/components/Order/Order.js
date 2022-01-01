@@ -1,7 +1,13 @@
 import classes from "./Order.module.css";
+import Button from "components/UI/Button/Button";
 
 const order = (props) => {
   const ingredients = [];
+
+  const handleClicked = () => {
+    const { deleteOrder, id } = props;
+    deleteOrder(id);
+  };
 
   for (let ingredientName in props.ingredients) {
     ingredients.push({
@@ -33,6 +39,11 @@ const order = (props) => {
       <p>
         Price: <strong>USD {Number.parseFloat(props.price).toFixed(2)}</strong>
       </p>
+      <div className={classes.delete}>
+        <Button btnType="Danger" clicked={handleClicked}>
+          DELETE
+        </Button>
+      </div>
     </div>
   );
 };
