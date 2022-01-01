@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component } from "react";
+import { Route, Routes } from "react-router-dom";
 
-import Layout from './hoc/Layout/Layout';
-import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
+import Layout from "./hoc/Layout/Layout";
+import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+import Checkout from "./containers/Checkout/Checkout";
+import Orders from "./containers/Orders/Orders";
 
 class App extends Component {
-  render () {
+  render() {
     return (
       <div>
         <Layout>
-          <Switch>
-            <Route path="/BurgerBuilder/checkout" component={Checkout} />
-            <Route path="/BurgerBuilder/orders" component={Orders} />
-            <Route path="/BurgerBuilder" exact component={BurgerBuilder} />
-          </Switch>
+          <Routes>
+            <Route path="/BurgerBuilder/checkout" element={<Checkout />} />
+            <Route path="/BurgerBuilder/orders" element={<Orders />} />
+            <Route path="/BurgerBuilder" element={<BurgerBuilder />} />
+          </Routes>
         </Layout>
       </div>
     );
