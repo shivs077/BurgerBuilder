@@ -1,3 +1,3 @@
-const auy=props=>props.children;
+const auy = (props) => props.children;
 
 export default auy;
